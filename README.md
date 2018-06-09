@@ -12,7 +12,7 @@ In this brief introduction can be seen that there are lots of entities that we c
  	the ammunition,
  	the background,
 Those are the main objects of the game, but the keyword reading, graphics dealing, palette setting and music are also very important.
-To understand the class hierarchy there is a diagram in the next page that shows the relationships between the base classes and derived classes. The remaining classes are not represented there because they are very simple in terms of block diagram and they have nothing relevant to add to those of the diagram.
+To understand the class hierarchy there is a diagram (classes.pdf) that shows the relationships between the base classes and derived classes. The remaining classes are not represented there because they are very simple in terms of block diagram and they have nothing relevant to add to those of the diagram.
 The diagram has the complete definition of the classes, and arrows indicating the base class, where we can perfectly see the encapsulation and inheritance.
 The code of the program is divided in three modules:
   The module MYCLASS.CPP has got all the declaration of the variables, functions and classes.
