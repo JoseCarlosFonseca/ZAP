@@ -1,2 +1,2 @@
 # ZAP
-DOS Game developed with CPP and Assembly
+DOS Game developed with Borland CPP and Assembly
