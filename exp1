@@ -1,0 +1,21 @@
+Time	% Total	Counts	
+
+0.0006	0.001535	756	"gifts.COLISION(&boy,&musicas);"
+0.0006	0.001535	756	"boy.KEYWORD(&teclado,&maps);"
+0.0006	0.001535	756	"boy.MOVEMENT(&teclado,&maps);"
+0.0006	0.001535	756	"gifts.OBJECTS();"
+0.0008	0.002047	756	"weap.SHOOT(&boy);"
+0.0314	0.080327	37044	"weap.CRASH(&monstros[cont],&boy,&musicas);"
+0.0356	0.091071	756	"share.COLISION(&boy,&musicas);"
+0.0522	0.133537	756	"share.OBJECTS();"
+0.0869	0.222306	756	"boy.STORE();"
+0.146	0.373494	756	"bonus.COLISION(&boy,&musicas);"
+0.1574	0.402657	756	"bonus.OBJECTS();"
+0.1725	0.441286	756	"monstros.COLISION(&boy,&musicas);"
+0.2042	0.52238	756	"weapons.OBJECTS();"
+0.3047	0.779477	756	"weapons.COLISION(&boy,&musicas);"
+0.3488	0.892293	756	"monstros.OBJECTS();"
+1.335	3.415169	756	"maps.ECRAN();"
+4.2004	10.74538	756	"maps.REFRESH();"
+32.012	81.89244	756	"boy.INFO();"
+			

@@ -1,0 +1,237 @@
+
+Turbo Profiler  Version 2.1  Tue Jan 10 21:32:13 1995
+
+Program: C:\ZE\CPP\JOGO14.EXE  File jogo14.cpp
+
+Time  Counts
+              #include <dos.h>
+              #include <stdlib.h>
+              #include <conio.h>
+              #include <iostream.h>
+              #include "myclass.h"
+              
+              template <class all> class ALL:
+                public SHARE, public GIFTS, public BONUS, public MONSTER
+              {
+                all *array;
+                long size;
+                int error;
+              public:
+                ALL(int value1=-1, int value2=-1, int value3=-1);
+                int SET(void);
+                void OBJECTS(void);
+                void COLISION(BOY *boy,MUSIC *musicas);
+                all &operator[] (unsigned index) { return array[index]; }
+                ~ALL();
+              };
+              
+              /* ALL */
+              
+              template <class all> ALL <all>::ALL(int value1, int value2, int va
+                GIFTS(), BONUS(), SHARE(), MONSTER()
+              {
+                long length;
+              
+                error=0;
+                if(value1==-1) length=LENGTH(value1,"MOVEL.001");
+                else
+                {
+                  length=LENGTH(value1);
+                  if(value2!=-1) length+=LENGTH(value2);
+                  if(value3!=-1) length+=LENGTH(value3);
+                }
+                if((array=new all [length])==NULL) error=100;
+                size=length;
+              }
+              
+              template <class all> ALL <all>::~ALL(void)
+              {
+                delete array;
+              }
+              
+              template <class all> int ALL <all>::SET(void)
+              {
+                long cont;
+              
+                if(error!=0) return(error);
+                for(cont=0;cont<size-1;cont++)
+                {
+                  array[cont].SET(cont+1);
+                  if((error=array[cont].ERROR())!=0) break;
+                }
+                return(error);
+              }
+              
+              template <class all> void ALL <all>::OBJECTS(void)
+
+
+Turbo Profiler  Version 2.1  Tue Jan 10 21:32:13 1995
+
+              {
+                long cont;
+                for(cont=0;cont<size-1;cont++)
+                  array[cont].OBJECTS();
+              }
+              
+              template <class all> void ALL <all>::COLISION(BOY *boy,MUSIC *musi
+              {
+                long cont;
+                for(cont=0;cont<size-1;cont++)
+                  array[cont].COLISION(boy,musicas);
+              }
+              
+              
+              #define XMIN 0                               /* coordenada horizon
+              #define XMAX 320                             /* coordenada horizon
+              #define YMIN 32                               /* coordenada vertic
+              #define YMAX 160                             /* coordenada vertica
+              #define XMAXMAPA 99                          /* tamanho horizontal
+              #define YMAXMAPA 12                          /* tamanho vertical d
+              
+              
+              /*----------------------------------------------------------------
+              /*  Programa principal                                            
+              /*                                                                
+              /*  Parametros:                                                   
+              /*    n„o tem                                                     
+              /*                                                                
+              /*----------------------------------------------------------------
+              int main(int argc,char *argv[])
+              {
+                int valpal,bonec,vid,cont,coderro=0;
+                short tocainic=0;
+                short timedelay=40;
+                long length;
+              
+                if(argc>=2)
+                  timedelay=atoi(argv[1]);
+                if(argc==3)
+                  tocainic=atoi(argv[2]);
+                if(timedelay<0) timedelay=0;
+                if(tocainic>1) tocainic=0;
+                do
+                {
+                  MUSIC musicas("musica.som","choque.som","apanha.som","mata.som
+                  if((coderro=musicas.INITMUSIC())!=0) break;
+              
+                  GRAFIC modo_grafico;
+              
+                  PALETTE pal;
+                  if((coderro=pal.SETPALETTE())!=0) break;
+                  pal.RESETPALETTE();
+              
+                  BACKGROUND fundo1("FUNDO1.BIT",0,0);
+                  if((coderro=fundo1.ERROR())!=0) break;
+              
+                  BACKGROUND fundo2("FUNDO2.BIT",0,159);
+                  if((coderro=fundo2.ERROR())!=0) break;
+              
+                  SPRITE::XCOORD=0;
+                  SPRITE::YCOORD=4*32;
+                  MAP maps;
+
+
+Turbo Profiler  Version 2.1  Tue Jan 10 21:32:13 1995
+
+                  if((coderro=maps.ERROR())!=0) break;
+              
+                  BOY boy;
+                  if((coderro=boy.ERROR())!=0) break;
+              
+                  MONSTER &mons=0;  /* so para inicializar *mostro e desloca */
+                  ALL <MONSTER> monstros;
+                  if((coderro=monstros.SET())!=0) break;
+                  length=LENGTH(-1,"MOVEL.001")-1;
+              
+                  GIFTS &gift=0;
+                  ALL <GIFTS> gifts(5);
+                  if((coderro=gifts.SET())!=0) break;
+              
+                  WEAPONS &weap=0;
+                  ALL <WEAPONS> weapons(0);
+                  if((coderro=weapons.SET())!=0) break;
+              
+              
+                  BONUS &bon=0;
+                  ALL <BONUS> bonus(1,2,3);
+                  if((coderro=bonus.SET())!=0) break;
+              
+                  SHARE &shar=0;
+                  ALL <SHARE> share(4);
+                  if((coderro=share.SET())!=0) break;
+              
+                  maps.ECRAN();
+                  boy.STORE();
+                  monstros.OBJECTS();
+                  gifts.OBJECTS();
+                  weapons.OBJECTS();
+                  bonus.OBJECTS();
+                  share.OBJECTS();
+              
+                  boy.INFO();
+              
+                  maps.REFRESH();
+                  valpal=pal++;
+              
+                  KEYPRESS teclado;
+              
+                                            /* Ciclo principal do jogo */
+                  do
+                  {
+                    vid=boy.LIVES();
+                                            /* Calcula as colis”es */
+0.1382 625          monstros.COLISION(&boy,&musicas);
+                    if(vid!=boy.LIVES()) valpal=pal--;
+              
+0.0005 625          gifts.COLISION(&boy,&musicas);
+0.1171 625          bonus.COLISION(&boy,&musicas);
+0.0282 625          share.COLISION(&boy,&musicas);
+0.2366 625          weapons.COLISION(&boy,&musicas);
+              
+                                        /* Descodifica‡„o do teclado */
+0.0005 625          boy.KEYWORD(&teclado,&maps);
+              
+                                           /* Movimento do boneco */
+0.0005 625          boy.MOVEMENT(&teclado,&maps);
+              
+                                        /* Posiciona o ecran de fundo */
+
+
+Turbo Profiler  Version 2.1  Tue Jan 10 21:32:13 1995
+
+1.1470 625          maps.ECRAN();
+              
+                                            /* Posiciona o boneco */
+0.0721 625          boy.STORE();
+              
+                          /* Calcula as novas posi‡”es dos OBJECTOS e posiciona-
+0.2882 625          monstros.OBJECTS();
+0.0005 625          gifts.OBJECTS();
+0.1253 625          bonus.OBJECTS();
+0.0456 625          share.OBJECTS();
+0.1536 625          weapons.OBJECTS();
+              
+                                            /* Calcula o disparo */
+0.0006 625          weap.SHOOT(&boy);
+                    for(cont=0;cont<length;cont++)
+0.0259 30625          weap.CRASH(&monstros[cont],&boy,&musicas);
+              
+                              /* Copia o ecran virtual para a mem¢ria de v¡deo *
+3.3053 625          maps.REFRESH();
+              
+                               /* Determina se deve haver ou n„o musica e sons *
+                    TECLAMUSIC(&musicas,&teclado);
+              
+                    if (vid!=boy.LIVES() && boy.LIVES()>0) valpal=pal++;
+              
+26.683 625          boy.INFO();
+                    delay(timedelay);
+                  }while(!teclado.KEY(1) && !(SPRITE::XCOORD==XMAXMAPA*32-(XMAX-
+                  musicas.SOM2MUSIC();
+                  if(valpal>0) valpal=pal--;
+                }while(0);
+                if(coderro!=0)
+                  ERROR(coderro);
+                return(coderro);
+              }
+              
